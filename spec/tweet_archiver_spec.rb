@@ -1,4 +1,5 @@
 require 'rspec'
+require_relative '../lib/parser.rb'
 require_relative '../lib/tweet_archiver.rb'
 
 describe TweetArchiver do
@@ -18,6 +19,12 @@ describe TweetArchiver do
         instance_double('Twitter::Tweet', id: 4, created_at: two_days_ago),
       ]
     end
+    let(:fake_rows) do
+      [
+        double('row one'),
+        double('row two')
+      ]
+    end
 
     before do
       allow(fake_client).to receive_message_chain(:user, :id) { 111111 }
@@ -27,7 +34,8 @@ describe TweetArchiver do
     end
 
     it 'archives tweets up until given date' do
-      expect(fake_data_store).to receive(:update).with(fake_tweets.last(2))
+      expect(Parser).to receive(:parse_tweets).with(fake_tweets.last(2)) { fake_rows }
+      expect(fake_data_store).to receive(:update).with(fake_rows)
       expect(fake_client).not_to receive(:destroy_status)
 
       TweetArchiver.new(
@@ -39,7 +47,8 @@ describe TweetArchiver do
     context 'with_delete is true' do
       context 'archiving successful' do
         it 'deletes tweets after archiving' do
-          expect(fake_data_store).to receive(:update).with(fake_tweets.last(2))
+          expect(Parser).to receive(:parse_tweets).with(fake_tweets.last(2)) { fake_rows }
+          expect(fake_data_store).to receive(:update).with(fake_rows)
           expect(fake_client).to receive(:destroy_status).with(fake_tweets.last(2))
 
           TweetArchiver.new(

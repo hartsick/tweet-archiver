@@ -15,6 +15,7 @@ namespace :tweet_archivist do
 
     archiver = TweetArchiver.new(
       twitter_client,
+      nil
     )
 
     one_week_ago = Time.now - (60 * 60 * 24 * 7)
