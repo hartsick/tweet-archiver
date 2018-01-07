@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'rake'
 gem 'twitter'
-gem 'pg'
+gem 'dotenv'
 
 group :development do
   gem 'pry'
