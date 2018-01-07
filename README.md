@@ -6,6 +6,8 @@ There are a million of these out there, and this one is mine.
 
 Archives a user's tweets in the same format as the downloadable Twitter archive, and optionally deletes those tweets from timeline.
 
+Right now, this only updates the tweet CSV. To view as a website, you need to update the JSON. I haven't tackled that yet, and may just not.
+
 ## Usage
 
 Can be run locally or configured to run regularly with e.g. Heroku Scheduler
@@ -16,11 +18,9 @@ Tasks:
 
 ## Data Stores
 
-### Amazon S3 Integration
+### Amazon S3 Integration - CSV
 
 Upload your tweet archive from Twitter, and then regularly add rows of tweets to the CSV file after archiving.
-
-Grants you the ability to download the entire folder and view the entire collection of your archived tweets as a website (provided as part of the Twitter downloaded archive) at any time.
 
 **To set up,**
 
@@ -63,6 +63,7 @@ Grants you the ability to download the entire folder and view the entire collect
 Potential todos:
 
 * Features:
+    * Update JSON so that Tweet archive web interface is usable (right now just updating CSV)
     * Pagination (for archiving more than the last 200 tweets)
     * Additional rake tasks or customization
 * Dev work:
