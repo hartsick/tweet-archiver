@@ -1,6 +1,7 @@
 require 'twitter'
 require 'dotenv/tasks'
 require_relative './lib/tweet_archiver'
+require_relative './lib/repositories/s3'
 
 task default: %w[tweet_archivist:archive_through_last_week]
 
@@ -15,7 +16,7 @@ namespace :tweet_archivist do
 
     archiver = TweetArchiver.new(
       twitter_client,
-      nil
+      Repository::S3.new
     )
 
     one_week_ago = Time.now - (60 * 60 * 24 * 7)

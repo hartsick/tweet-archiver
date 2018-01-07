@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'twitter'
 gem 'dotenv'
+gem 'aws-sdk-s3'
 
 group :development do
   gem 'pry'

@@ -2,13 +2,60 @@
 
 There are a million of these out there, and this one is mine!
 
-Archives a user's tweets to a Google Sheet in the same format as the downloadable Twitter archive, and optionally deletes those tweets from timeline.
+Archives a user's tweets in the same format as the downloadable Twitter archive, and optionally deletes those tweets from timeline.
 
-WIP
+## Data Stores
+
+### Amazon S3 (only one currently available)
+
+Upload your tweet archive from Twitter, and then regularly add rows of tweets to the CSV file after archiving.
+
+Grants you the ability to download the entire folder and view the entire collection of your archived tweets as a website (provided as part of the Twitter downloaded archive) at any time.
+
+**To set up,**
+
+* Create an [AWS account](https://aws.amazon.com)
+* Create a private S3 bucket and (recommended) [enable versioning](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#how-to-enable-disable-versioning-intro)
+* Provision an IAM user with programmatic access
+* For development, add the credentials for the IAM user to your `.env` file as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+* For development, add the S3 bucket name and region to your `.env` file as `AWS_BUCKET_NAME` and `AWS_BUCKET_REGION`
+
+* Download your Twitter tweets archive
+* Unzip the tweets archive locally and rename the resulting directory to `tweet_archive`
+* Upload the `tweet_archive` directory (including containing folder) to the S3 bucket
+
+* In AWS console, grant IAM user at least 'GetObject', 'PutObject', and 'ListObject' permissions for the tweet_archive directory in the S3 bucket (at least for `tweets.csv`, but also okay to grant permission for all files in directory). Here's my example policy:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::my-s3-bucket/tweet_archive/*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "s3:ListObjects",
+            "Resource": "*"
+        }
+    ]
+}
+```
 
 ---
 
-TODO:
+Potential todos:
 
-* Pagination (for archiving more than the last 200 tweets)
-* Hook up Google Sheets integration
+* Features:
+    * Pagination (for archiving more than the last 200 tweets)
+    * Additional rake tasks or customization
+* Dev work:
+    * Integration testing
+    * Unit testing for S3 repository
+    * Break out CSV creation into own class
