@@ -1,4 +1,5 @@
 require 'twitter'
+require_relative './parser'
 
 class TweetArchiver
   def initialize(twitter, repository)

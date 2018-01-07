@@ -2,10 +2,10 @@ require 'twitter'
 require 'dotenv/tasks'
 require_relative './lib/tweet_archiver'
 
-task default: %w[tweet_archivist:archive_until_a_week_ago]
+task default: %w[tweet_archivist:archive_through_last_week]
 
 namespace :tweet_archivist do
-  task archive_until_a_week_ago: :dotenv do
+  task archive_through_last_week: :dotenv do
     twitter_client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
       config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']

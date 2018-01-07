@@ -1,6 +1,6 @@
 require 'rspec'
-require_relative '../lib/parser.rb'
-require_relative '../lib/tweet_archiver.rb'
+require_relative '../lib/parser'
+require_relative '../lib/tweet_archiver'
 
 describe TweetArchiver do
   let(:now) { Time.now }
