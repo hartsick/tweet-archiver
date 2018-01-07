@@ -1,7 +1,7 @@
 require 'rspec'
-require_relative '../lib/parser'
+require_relative '../lib/tweet_to_csv_parser'
 
-describe Parser do
+describe TweetToCsvParser do
   describe '.parse_tweet' do
     let(:time) { Time.new(2009, 03, 16, 1, 30, 0, '+00:00') }
     context 'for regular tweet' do
@@ -22,7 +22,7 @@ describe Parser do
           urls: [ fake_url, other_fake_url ]
         )
 
-        row = Parser.parse_tweet(tweet)
+        row = TweetToCsvParser.parse_tweet(tweet)
 
         expect(row.to_h).to match(
           tweet_id: '1',
@@ -57,7 +57,7 @@ describe Parser do
           retweeted_status: fake_status
         )
 
-        row = Parser.parse_tweet(tweet)
+        row = TweetToCsvParser.parse_tweet(tweet)
 
         expect(row.to_h).to match(
           tweet_id: '1',
@@ -89,7 +89,7 @@ describe Parser do
           urls?: false
         )
 
-        row = Parser.parse_tweet(tweet)
+        row = TweetToCsvParser.parse_tweet(tweet)
 
         expect(row.to_h).to match(
           tweet_id: '1',
@@ -115,7 +115,7 @@ describe Parser do
         double('tweet three').as_null_object,
       ]
 
-      rows = Parser.parse_tweets(tweets)
+      rows = TweetToCsvParser.parse_tweets(tweets)
       expect(rows.length).to eq(3)
     end
   end
