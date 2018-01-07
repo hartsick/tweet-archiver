@@ -17,7 +17,6 @@ class TweetArchiver
     repository.update(rows)
 
     if with_delete
-      puts "Destroying tweet ids #{in_range_tweets.map(&:id)}"
       twitter.destroy_status(in_range_tweets)
     end
   end
