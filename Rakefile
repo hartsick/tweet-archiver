@@ -6,7 +6,7 @@ require_relative './lib/repositories/s3'
 task default: %w[tweet_archivist:archive_through_last_week]
 
 namespace :tweet_archivist do
-  task archive_through_last_week: :dotenv do
+  task :archive_through_last_week, [:with_delete] => [:environment, :dotenv] do |t, args|
     twitter_client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
       config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
@@ -20,6 +20,8 @@ namespace :tweet_archivist do
     )
 
     one_week_ago = Time.now - (60 * 60 * 24 * 7)
-    archiver.archive_until(one_week_ago)
+    with_delete = args['with_delete'] == 'with_delete' ? true : false
+
+    archiver.archive_until(one_week_ago, with_delete: with_delete)
   end
 end

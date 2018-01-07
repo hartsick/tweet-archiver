@@ -4,9 +4,17 @@ There are a million of these out there, and this one is mine!
 
 Archives a user's tweets in the same format as the downloadable Twitter archive, and optionally deletes those tweets from timeline.
 
+## Usage
+
+Can be run locally or configured to run regularly with e.g. Heroku Scheduler
+
+Tasks:
+* `rake tweet_archivist:archive_through_last_week` to archive all tweets through last week    
+* `rake tweet_archivist:archive_through_last_week[with_delete]` to archive and delete all tweets through last week    
+
 ## Data Stores
 
-### Amazon S3 (only one currently available)
+### Amazon S3 Integration
 
 Upload your tweet archive from Twitter, and then regularly add rows of tweets to the CSV file after archiving.
 
